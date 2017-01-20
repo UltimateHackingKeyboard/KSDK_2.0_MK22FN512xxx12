@@ -286,41 +286,31 @@ __isr_vector:
     .long   DefaultISR                                      /* 237*/
     .long   DefaultISR                                      /* 238*/
     .long   DefaultISR                                      /* 239*/
-
-//  .long   0xFFFFFFFF                                      /*  Reserved for user TRIM value*/
-
-/* SGF This is the actual BCA that is being loaded by the bootloader at reset time to check what to do.
-   The key value is Direct boot, which we have enabled. So by default the BL will just jump to the
-   user application unless some of the check conditions are not present. */
-//__bootloaderConfigurationArea ; 0x3c0
-//    .long     'kcfg'        // [00:03] tag - Tag value used to validate the bootloader configuration data. Must be set to 'kcfg'
-        .long     0x6766636b /* Be aware of endianness SGF */
-        .long     0xFFFFFFFF    // [04:07] crcStartAddress
-        .long     0xFFFFFFFF    // [08:0b] crcByteCount
-        .long     0xFFFFFFFF    // [0c:0f] crcExpectedValue
-        .byte     0x10          // [10:10] enabledPeripherals /* SGF Bit 4 corresponds to USB HID */
-        .byte     0xFF          // [11:11] i2cSlaveAddress
-        .short    5000          // [12:13] peripheralDetectionTimeoutMs - Timeout in milliseconds for peripheral detection before jumping to application code
-        .short     0xFFFF       // [14:15] usbVid
-        .short     0xFFFF       // [16:17] usbPid
-        .long     0xFFFFFFFF    // [18:1b] usbStringsPointer
-        .byte     0x00          // [1c:1c] clockFlags - High Speed and other clock options /* SGF Set to 0 to enable 48 MHz CLK and USB HID */
-        .byte     0xFF          // [1d:1d] clockDivider - One's complement of clock divider, zero divider is divide by 1
-        .byte     0xFE          // [1e] SGF Direct boot in 1's complement. FE means direct boot enabled.
-        .byte     0xFF          // [1f] reserved
-        // Fill to align with flash configuration field.
-        .long     0xFFFFFFFF
-        .long     0xFFFFFFFF
-        .long     0xFFFFFFFF
-        .long     0xFFFFFFFF
-        .long     0xFFFFFFFF
-        .long     0xFFFFFFFF
-        .long     0xFFFFFFFF
-        .long     0xFFFFFFFF        // Reserved for user TRIM value
-
-
+    .long   DefaultISR                                      /* 240*/
+    .long   DefaultISR                                      /* 241*/
+    .long   DefaultISR                                      /* 242*/
+    .long   DefaultISR                                      /* 243*/
+    .long   DefaultISR                                      /* 244*/
+    .long   DefaultISR                                      /* 245*/
+    .long   DefaultISR                                      /* 246*/
+    .long   DefaultISR                                      /* 247*/
+    .long   DefaultISR                                      /* 248*/
+    .long   DefaultISR                                      /* 249*/
+    .long   DefaultISR                                      /* 250*/
+    .long   DefaultISR                                      /* 251*/
+    .long   DefaultISR                                      /* 252*/
+    .long   DefaultISR                                      /* 253*/
+    .long   DefaultISR                                      /* 254*/
+    .long   0xFFFFFFFF                                      /*  Reserved for user TRIM value*/
 
     .size    __isr_vector, . - __isr_vector
+
+/* Flash Configuration */
+    .section .FlashConfig, "a"
+    .long 0xFFFFFFFF
+    .long 0xFFFFFFFF
+    .long 0xFFFFFFFF
+    .long 0xFFFFFFFE
 
     .text
     .thumb
