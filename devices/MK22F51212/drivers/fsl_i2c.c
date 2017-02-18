@@ -28,7 +28,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include "fsl_i2c.h"
-
+#include "init_peripherials.h"
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -145,6 +145,9 @@ static i2c_isr_t s_i2cMasterIsr;
 
 /*! @brief Pointer to slave IRQ handler for each instance. */
 static i2c_isr_t s_i2cSlaveIsr;
+
+/* SGF @brief Extern counter to ensure that I2C is always alive */
+extern uint32_t I2C_Watchdog;
 
 /*******************************************************************************
  * Codes
@@ -405,7 +408,8 @@ static void I2C_TransferCommonIRQHandler(I2C_Type *base, void *handle)
     }
     else
     {
-        s_i2cSlaveIsr(base, handle);
+        //s_i2cSlaveIsr(base, handle); /* SGF Stupid test*/
+        s_i2cMasterIsr(base, handle);
     }
 }
 
@@ -1037,7 +1041,7 @@ void I2C_MasterTransferHandleIRQ(I2C_Type *base, void *i2cHandle)
 
     /* Clear the interrupt flag. */
     base->S = kI2C_IntPendingFlag;
-
+    I2C_Watchdog++;
     /* Check transfer complete flag. */
     result = I2C_MasterTransferRunStateMachine(base, handle, &isDone);
 
