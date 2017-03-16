@@ -147,7 +147,7 @@ static i2c_isr_t s_i2cMasterIsr;
 static i2c_isr_t s_i2cSlaveIsr;
 
 /* SGF @brief Extern counter to ensure that I2C is always alive */
-uint32_t I2C_Watchdog;
+volatile uint32_t I2C_Watchdog;
 
 /*******************************************************************************
  * Codes

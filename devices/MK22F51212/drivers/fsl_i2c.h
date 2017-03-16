@@ -32,7 +32,7 @@
 
 #include "fsl_common.h"
 
-extern uint32_t I2C_Watchdog;
+extern volatile uint32_t I2C_Watchdog;
 
 /*!
  * @addtogroup i2c_driver
