@@ -387,7 +387,12 @@ static status_t I2C_MasterTransferRunStateMachine(I2C_Type *base, i2c_master_han
                 }
 
                 /* Read the data byte into the transfer buffer. */
-                *handle->transfer.data = base->D;
+                uint8_t data = base->D;
+                if (handle->userData) {
+                    handle->transfer.dataSize = 2 + data;  // 2 byte hash length + payload length
+                    handle->userData = NULL;
+                }
+                *handle->transfer.data = data;
                 handle->transfer.data++;
             }
             break;
