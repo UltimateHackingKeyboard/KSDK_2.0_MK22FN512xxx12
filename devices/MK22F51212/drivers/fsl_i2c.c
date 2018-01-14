@@ -149,6 +149,10 @@ static i2c_isr_t s_i2cSlaveIsr;
 /* SGF @brief Extern counter to ensure that I2C is always alive */
 volatile uint32_t I2C_Watchdog;
 
+/* The actual baud rate set by the last invocation of I2C_MasterSetBaudRate() */
+volatile uint32_t I2C_ActualBaudRate;
+
+
 /*******************************************************************************
  * Codes
  ******************************************************************************/
@@ -573,6 +577,7 @@ void I2C_MasterSetBaudRate(I2C_Type *base, uint32_t baudRate_Bps, uint32_t srcCl
                 bestMult = mult;
                 bestIcr = i;
                 bestError = absError;
+                I2C_ActualBaudRate = computedRate;
 
                 /* If the error is 0, then we can stop searching because we won't find a better match. */
                 if (absError == 0)
