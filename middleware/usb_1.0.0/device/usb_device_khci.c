@@ -1199,10 +1199,19 @@ usb_status_t USB_DeviceKhciControl(usb_device_controller_handle khciHandle, usb_
 #if defined(USB_DEVICE_CONFIG_REMOTE_WAKEUP) && (USB_DEVICE_CONFIG_REMOTE_WAKEUP > 0U)
             USB_OSA_ENTER_CRITICAL();
             khciState->registerBase->CTL |= USB_CTL_RESUME_MASK;
-            for (uint32_t i = 500U; i > 0U; i--)
+#if 1 // This is a hack and is not tuned in any way, but it works - note that we can not use a timer, as interrupts are disabled
+            for (uint64_t i = MSEC_TO_COUNT(8, SystemCoreClock); i > 0U; i--)
+            {
+                // The device must apply the wakeup K condition between 1 to 15 ms - see: http://www.usbmadesimple.co.uk/ums_3.htm and https://www.nxp.com/docs/en/application-note/AN5385.pdf
+                __ASM("nop");
+            }
+#else
+            // I increasing this from 500 to 1000, but it is better to use a timer
+            for (uint32_t i = 1000U; i > 0U; i--)
             {
                 __ASM("nop");
             }
+#endif
             khciState->registerBase->CTL &= ~USB_CTL_RESUME_MASK;
             USB_OSA_EXIT_CRITICAL();
             error = kStatus_USB_Success;
