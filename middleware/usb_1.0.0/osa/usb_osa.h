@@ -41,12 +41,24 @@
  ******************************************************************************/
 
 /*! @brief Define big endian */
+#ifndef BIG_ENDIAN
 #define BIG_ENDIAN (0U)
+#endif
 /*! @brief Define little endian */
+#ifndef LITTLE_ENDIAN
 #define LITTLE_ENDIAN (1U)
+#endif
 
 /*! @brief Define current endian */
+#ifndef _BYTE_ORDER
 #define ENDIANNESS LITTLE_ENDIAN
+#else
+#if _BYTE_ORDER == _LITTLE_ENDIAN
+#define ENDIANNESS LITTLE_ENDIAN
+#else
+#define ENDIANNESS BIG_ENDIAN
+#endif
+#endif
 
 /*! @brief Define USB OSA event handle */
 typedef void *usb_osa_event_handle;
