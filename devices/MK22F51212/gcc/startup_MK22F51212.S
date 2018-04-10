@@ -353,7 +353,7 @@ Reset_Handler:
     ldr    r2, =__data_start__
     ldr    r3, =__data_end__
 
-#if 1
+#if 0
 /* Here are two copies of loop implemenations. First one favors code size
  * and the second one favors performance. Default uses the first one.
  * Change to "#if 0" to use the second one */
