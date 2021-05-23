@@ -110,6 +110,8 @@ typedef enum _usb_device_event
     kUSB_DeviceEventSetRemoteWakeup,            /*!< Enable or disable remote wakeup function. */
     kUSB_DeviceEventGetConfiguration,           /*!< Get current configuration index */
     kUSB_DeviceEventGetInterface,               /*!< Get current interface alternate setting value */
+    kUSB_DeviceEventGetDeviceStatus,            /*!< Get current device status flags (self powered, remote wake-up enabled) */
+
 } usb_device_event_t;
 
 /*! @brief Endpoint callback message structure */
