@@ -374,6 +374,32 @@ Reset_Handler:
 .LC1:
 #endif
 
+/*     Loop to copy m_data_2 from read only memory to RAM. 
+ *     Just as above
+*/
+
+    ldr    r1, =data2_at
+    ldr    r2, =data2_start
+    ldr    r3, =data2_end
+
+#if 0
+.LC3:
+    cmp     r2, r3
+    ittt    lt
+    ldrlt   r0, [r1], #4
+    strlt   r0, [r2], #4
+    blt    .LC3
+#else
+    subs    r3, r2
+    ble    .LC4
+.LC3:
+    subs    r3, #4
+    ldr    r0, [r1, r3]
+    str    r0, [r2, r3]
+    bgt    .LC3
+.LC4:
+#endif
+
 #ifdef __STARTUP_CLEAR_BSS
 /*     This part of work usually is done in C library startup code. Otherwise,
  *     define this macro to enable it in this startup.
